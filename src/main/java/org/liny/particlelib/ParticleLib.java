@@ -1,10 +1,8 @@
 package org.liny.particlelib;
 
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
-import org.apache.commons.lang3.tuple.Triple;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Color;
@@ -14,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
