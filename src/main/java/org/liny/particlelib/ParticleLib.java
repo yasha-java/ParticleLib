@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 public final class ParticleLib {
 
-    public static void sphereParticle (Location loc, Color color, int radius, int h) {
+    public static void drawSphereHigh (Location loc, Color color, int radius, int h) {
 
         for (double t = 0; t < 2 * Math.PI; t += Math.PI / 16) {
             double x_offset = radius * Math.cos(t);
@@ -53,7 +53,7 @@ public final class ParticleLib {
 
     }
 
-    public static void sphereParticle (Location loc, Color color, int radius) {
+    public static void drawSphere (Location loc, Color color, int radius) {
 
         for (double t = 0; t < 2 * Math.PI; t += Math.PI / 16) {
             double x_offset = radius * Math.cos(t);
@@ -81,7 +81,7 @@ public final class ParticleLib {
 
     }
 
-    public static class sphereParticleAsync {
+    public static class drawSphereAsync {
 
         private double t = 0;
         private final double limiter = 2 * Math.PI;
@@ -89,7 +89,7 @@ public final class ParticleLib {
 
         private int task_id = Integer.MAX_VALUE;
 
-        public sphereParticleAsync (Plugin main, Location loc, Color color, int radius, int h, int particle_size, int speed) {
+        public drawSphereAsync (Plugin main, Location loc, Color color, int radius, int h, int particle_size, int speed) {
 
             this.task_id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(main, () -> {
 
@@ -123,7 +123,7 @@ public final class ParticleLib {
 
         }
 
-        public sphereParticleAsync (Plugin main, Location loc, Color color, int radius, int particleSize, int speed) {
+        public drawSphereAsync (Plugin main, Location loc, Color color, int radius, int particleSize, int speed) {
 
             this.task_id = Bukkit.getScheduler().scheduleAsyncRepeatingTask(main, () -> {
 
@@ -158,7 +158,7 @@ public final class ParticleLib {
 
     }
 
-    public static class trySphereOfEntity {
+    public static class startSphereOfEntity {
 
         LivingEntity targetEntity;
         int radius;
@@ -168,14 +168,14 @@ public final class ParticleLib {
         int taskId;
         List<ImmutableTriple<Double, Double, Double>> particles = new LinkedList<>();
 
-        public trySphereOfEntity (LivingEntity targetEntity, int radius, int slices, int stacks) {
+        public startSphereOfEntity (LivingEntity targetEntity, int radius, int slices, int stacks) {
             this.targetEntity = targetEntity;
             this.radius = radius;
             this.slices = slices;
             this.stacks = stacks;
         }
 
-        public trySphereOfEntity setWhencomplete(Consumer<Class<?>> whencomplete) {
+        public startSphereOfEntity setWhencomplete(Consumer<Class<?>> whencomplete) {
             this.whencomplete = whencomplete;
             return this;
         }
@@ -203,9 +203,10 @@ public final class ParticleLib {
 
                     if (i.get() >= slices) {
                         try {
-                            Bukkit.getScheduler().runTask(main, () -> {
-                                this.whencomplete.accept(null);
-                            });
+                            if (this.whencomplete != null)
+                                Bukkit.getScheduler().runTask(main, () -> {
+                                    this.whencomplete.accept(null);
+                                });
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
